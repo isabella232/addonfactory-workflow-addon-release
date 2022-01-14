@@ -46,7 +46,7 @@ jobs:
           fetch-depth: "0"
       - name: Trufflehog Actions Scan
         uses: edplato/trufflehog-actions-scan@v0.9l-beta
-        # with:
-          # scanArguments: "--max_dept 100 --entropy True -x .github/workflows/exclude-patterns.txt --allow .github/workflows/allow-trufflehog.json"
+        with:
+          scanArguments: "--max_dept 100 --entropy True -x .github/workflows/exclude-patterns.txt --allow .github/workflows/allow-trufflehog.json"
           # scanArguments: "--max_depth 100 -x .github/workflows/exclude-patterns.txt"
   
