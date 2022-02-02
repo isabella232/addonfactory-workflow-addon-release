@@ -87,10 +87,9 @@ jobs:
         run: |
           pwd
           ls -al
-          exit 1
       - name: matrix
         id: matrix
-        uses: splunk/addonfactory-test-matrix-action@v1.3
+        uses: splunk/addonfactory-test-matrix-action@test/new-tomcat-versions
 
   compliance-sample-scanner:
     runs-on: ubuntu-latest
