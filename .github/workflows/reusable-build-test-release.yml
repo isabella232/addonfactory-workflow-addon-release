@@ -89,7 +89,7 @@ jobs:
           ls -al
       - name: matrix
         id: matrix
-        uses: splunk/addonfactory-test-matrix-action@test/new-tomcat-versions
+        uses: splunk/addonfactory-test-matrix-action@feature/add-vendor-versions
 
   compliance-sample-scanner:
     runs-on: ubuntu-latest
