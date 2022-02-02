@@ -82,6 +82,12 @@ jobs:
             type=semver,pattern={{major}}.{{minor}},value=${{ steps.version.outputs.new_release_version }}
             type=ref,event=branch
             type=ref,event=pr
+      - name: debug
+        id: debug
+        run: |
+          pwd
+          ls -al
+          exit 1
       - name: matrix
         id: matrix
         uses: splunk/addonfactory-test-matrix-action@v1.3
