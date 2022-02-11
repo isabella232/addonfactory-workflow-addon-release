@@ -44,7 +44,8 @@ jobs:
       container_base: ${{ fromJSON(steps.docker_action_meta.outputs.json).tags[0] }}
       matrix_supportedSplunk: ${{ steps.matrix.outputs.supportedSplunk }}
       matrix_supportedSC4S: ${{ steps.matrix.outputs.supportedSC4S }}
-      matrix_supportedVendor: ${{ steps.matrix.outputs.supportedVendors }}
+      matrix_supportedModinputFunctionalVendors: ${{ steps.matrix.outputs.supportedModinputFunctionalVendors }}
+      matrix_supportedUIVendors: ${{ steps.matrix.outputs.supportedUIVendors }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -82,7 +83,7 @@ jobs:
             type=ref,event=pr
       - name: matrix
         id: matrix
-        uses: splunk/addonfactory-test-matrix-action@v1.4.0
+        uses: splunk/addonfactory-test-matrix-action@ci/optional-ui-vendor-matrix
 
   compliance-sample-scanner:
     runs-on: ubuntu-latest
@@ -940,6 +941,7 @@ jobs:
       matrix:
         splunk: ${{ fromJson(needs.meta.outputs.matrix_supportedSplunk) }}
         browser: ["chrome"]
+        vendor-version: ${{ fromJson(needs.meta.outputs.matrix_supportedUIVendors) }}
     container:
       image: ghcr.io/splunk/workflow-engine-base:2.0.3
     env:
@@ -992,6 +994,7 @@ jobs:
           delay-destroy: "No"
           addon-url: ${{ needs.setup.outputs.addon-upload-path }}
           addon-name: ${{ needs.setup.outputs.addon-name }}
+          vendor-version: ${{ matrix.vendor-version.image }}
           sc4s-version: "No"
       - name: Check if pod was deleted
         id: is-pod-deleted
@@ -1095,7 +1098,7 @@ jobs:
       matrix:
         splunk: ${{ fromJson(needs.meta.outputs.matrix_supportedSplunk) }}
         modinput-type: ["modinput_functional"]
-        vendor-version: ${{ fromJson(needs.meta.outputs.matrix_supportedVendor) }}
+        vendor-version: ${{ fromJson(needs.meta.outputs.matrix_supportedModinputFunctionalVendors) }}
     container:
       image: ghcr.io/splunk/workflow-engine-base:2.0.3
     env:
