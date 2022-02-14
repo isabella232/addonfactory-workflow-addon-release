@@ -32,57 +32,57 @@ on:
         required: true
 
 jobs:
-  meta:
-    runs-on: ubuntu-latest
-    outputs:
-      sc4s: ghcr.io/${{ github.repository }}/container:${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.version'] }}
-      container_tags: ${{ steps.docker_action_meta.outputs.tags }}
-      container_labels: ${{ steps.docker_action_meta.outputs.labels }}
-      container_buildtime: ${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.created'] }}
-      container_version: ${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.version'] }}
-      container_revision: ${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.revision'] }}
-      container_base: ${{ fromJSON(steps.docker_action_meta.outputs.json).tags[0] }}
-      matrix_supportedSplunk: ${{ steps.matrix.outputs.supportedSplunk }}
-      matrix_supportedSC4S: ${{ steps.matrix.outputs.supportedSC4S }}
-      matrix_supportedVendor: ${{ steps.matrix.outputs.supportedVendors }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: false
-          persist-credentials: false
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Semantic Release
-        id: version
-        uses: cycjimmy/semantic-release-action@v2.7.0
-        with:
-          semantic_version: 17
-          extra_plugins: |
-            @semantic-release/exec
-            @semantic-release/git
-            semantic-release-helm
-            @google/semantic-release-replace-plugin
-          dry_run: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Docker meta
-        id: docker_action_meta
-        uses: docker/metadata-action@v3.6.2
-        with:
-          images: ghcr.io/${{ github.repository }}/container
-          tags: |
-            type=sha,format=long
-            type=sha
-            type=semver,pattern={{version}},value=${{ steps.version.outputs.new_release_version }}
-            type=semver,pattern={{major}},value=${{ steps.version.outputs.new_release_version }}
-            type=semver,pattern={{major}}.{{minor}},value=${{ steps.version.outputs.new_release_version }}
-            type=ref,event=branch
-            type=ref,event=pr
-      - name: matrix
-        id: matrix
-        uses: splunk/addonfactory-test-matrix-action@v1.4.0
+  # meta:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     sc4s: ghcr.io/${{ github.repository }}/container:${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.version'] }}
+  #     container_tags: ${{ steps.docker_action_meta.outputs.tags }}
+  #     container_labels: ${{ steps.docker_action_meta.outputs.labels }}
+  #     container_buildtime: ${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.created'] }}
+  #     container_version: ${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.version'] }}
+  #     container_revision: ${{ fromJSON(steps.docker_action_meta.outputs.json).labels['org.opencontainers.image.revision'] }}
+  #     container_base: ${{ fromJSON(steps.docker_action_meta.outputs.json).tags[0] }}
+  #     matrix_supportedSplunk: ${{ steps.matrix.outputs.supportedSplunk }}
+  #     matrix_supportedSC4S: ${{ steps.matrix.outputs.supportedSC4S }}
+  #     matrix_supportedVendor: ${{ steps.matrix.outputs.supportedVendors }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         submodules: false
+  #         persist-credentials: false
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '14'
+  #     - name: Semantic Release
+  #       id: version
+  #       uses: cycjimmy/semantic-release-action@v2.7.0
+  #       with:
+  #         semantic_version: 17
+  #         extra_plugins: |
+  #           @semantic-release/exec
+  #           @semantic-release/git
+  #           semantic-release-helm
+  #           @google/semantic-release-replace-plugin
+  #         dry_run: true
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  #     - name: Docker meta
+  #       id: docker_action_meta
+  #       uses: docker/metadata-action@v3.6.2
+  #       with:
+  #         images: ghcr.io/${{ github.repository }}/container
+  #         tags: |
+  #           type=sha,format=long
+  #           type=sha
+  #           type=semver,pattern={{version}},value=${{ steps.version.outputs.new_release_version }}
+  #           type=semver,pattern={{major}},value=${{ steps.version.outputs.new_release_version }}
+  #           type=semver,pattern={{major}}.{{minor}},value=${{ steps.version.outputs.new_release_version }}
+  #           type=ref,event=branch
+  #           type=ref,event=pr
+  #     - name: matrix
+  #       id: matrix
+  #       uses: splunk/addonfactory-test-matrix-action@v1.4.0
 
   compliance-sample-scanner:
     runs-on: ubuntu-latest
