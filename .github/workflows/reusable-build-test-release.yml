@@ -396,7 +396,7 @@ jobs:
       - name: Copy pytest ini
         run: cp tests/unit/pytest-ci.ini pytest.ini
       - name: Run Pytest with coverage
-        run: for i in {1..30}; do echo -n free -m >> test.txt ; sleep 5; done & pytest --cov=./ --cov-report=xml --junitxml=test-results/junit.xml tests/unit
+        run: for i in {1..30}; do echo -n free >> test.txt ; sleep 5; done & pytest --cov=./ --cov-report=xml --junitxml=test-results/junit.xml tests/unit
       - name: Run Check if codecov enabled
         id: checkcodecov
         run: if [ -n "$CODECOV_TOKEN" ]; then echo "::set-output name=ENABLED::true"; fi
