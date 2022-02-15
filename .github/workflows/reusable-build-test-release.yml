@@ -347,7 +347,7 @@ jobs:
   run-unit-tests:
     name: test-unit-python3-${{ matrix.python-version }}
     if: ${{ needs.test-inventory.outputs.unit == 'true' }}
-    runs-on: ubuntu-
+    runs-on: ubuntu-latest
     needs:
       - build
       - test-inventory
