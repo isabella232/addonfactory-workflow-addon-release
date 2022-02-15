@@ -416,6 +416,7 @@ jobs:
       - name: check memory and storage
         if: success() || failure()
         run: |
+          cat test.txt
           echo "Memory and swap:"
           free
           echo
