@@ -357,12 +357,16 @@ jobs:
         python-version:
           - "3.7"
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 512
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
+      - name: check memory and storage
+        if: success() || failure()
+        run: |
+          echo "Memory and swap:"
+          free
+          echo
+          swapon --show
+          echo
+          echo "Available storage:"
+          df -h
       - uses: actions/checkout@v2
       - if: failure()
         name: Setup python
