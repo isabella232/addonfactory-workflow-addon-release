@@ -356,6 +356,7 @@ jobs:
       matrix:
         python-version:
           - "3.7"
+        marker: ["test_"]
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
@@ -385,7 +386,7 @@ jobs:
       - name: Copy pytest ini
         run: cp tests/unit/pytest-ci.ini pytest.ini
       - name: Run Pytest with coverage
-        run: pytest --junitxml=test-results/junit.xml tests/unit
+        run: pytest --junitxml=test-results/junit.xml -m ${{ matrix.marker }} tests/unit
       - name: Run Check if codecov enabled
         id: checkcodecov
         run: if [ -n "$CODECOV_TOKEN" ]; then echo "::set-output name=ENABLED::true"; fi
