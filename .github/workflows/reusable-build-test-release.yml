@@ -356,7 +356,7 @@ jobs:
       matrix:
         python-version:
           - "3.7"
-        marker: ["m1", "m2"]
+        marker: ["m1", "not m1"]
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
